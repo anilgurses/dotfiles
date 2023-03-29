@@ -1,0 +1,24 @@
+window:
+  opacity: 0.89
+font:
+  # The normal (roman) font face to use.
+  normal:
+    family: Hack Nerd Font Mono
+    size: 9
+    # Style can be specified to pick a specific face.
+    # style: Regular
+
+
+  # The bold font face
+  bold:
+    family: DejaVu Sans Mono
+    # Style can be specified to pick a specific face.
+    # style: Bold
+
+  # The italic font face
+  italic:
+    family: DejaVu Sans Mono
+    # Style can be specified to pick a specific face.
+    # style: Italic
+import:
+  - ~/.alacritty-colorscheme/themes/iterm.yaml
