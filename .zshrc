@@ -107,4 +107,4 @@ export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/python3.11/site-packages/nvidia/cudnn/lib/:/usr/lib64/
-alias bd='make -j 12 && sudo make install && sudo ldconfig'
+source $HOME/alias.sh
