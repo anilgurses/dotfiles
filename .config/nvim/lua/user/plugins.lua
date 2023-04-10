@@ -64,6 +64,7 @@ return packer.startup(function(use)
   use { "wakatime/vim-wakatime"}
   use { "ActivityWatch/aw-watcher-vim"}
   use { "vim-scripts/DoxygenToolkit.vim"}
+  use { "junegunn/fzf.vim" }
 
   -- Colorschemes
   use { "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" }
