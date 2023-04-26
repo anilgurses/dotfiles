@@ -1,24 +1,29 @@
 window:
   opacity: 0.89
+  decorations: none
 font:
   # The normal (roman) font face to use.
+  size: 10
   normal:
-    family: Hack Nerd Font Mono
-    size: 9
+    family: Hasklug Nerd Font Mono
+    size: 10
+    style: Regular
     # Style can be specified to pick a specific face.
     # style: Regular
-
-
+    
   # The bold font face
   bold:
-    family: DejaVu Sans Mono
+    family: Fira Code
     # Style can be specified to pick a specific face.
-    # style: Bold
+    style: Bold
 
   # The italic font face
   italic:
-    family: DejaVu Sans Mono
+    family: Fira Code
     # Style can be specified to pick a specific face.
-    # style: Italic
+    style: Italic
+env:
+  TERM: xterm-256color
 import:
   - ~/.alacritty-colorscheme/themes/iterm.yaml
+
