@@ -35,6 +35,8 @@ function M.config()
       "html",
       "matlab",
       "verilog",
+      "proto",
+      "yaml"
     }, -- put the language you want in this array
     -- ensure_installed = "all", -- one of "all" or a list of languages
     ignore_install = { "" }, -- List of parsers to ignore installing
