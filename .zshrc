@@ -100,11 +100,14 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim'
-export PATH=/home/agrses/.local/bin/:$PATH:/usr/local/cuda-12.1/bin
-export LD_LIBRARY_PATH=/usr/local/lib64/
+export PATH=/home/agrses/.local/bin/:$PATH:/usr/local/cuda-12.1/bin:/home/agrses/.cargo/bin
+export LD_LIBRARY_PATH=
 export NVM_DIR="$HOME/.nvm"
 export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/python3.11/site-packages/nvidia/cudnn/lib/:/usr/lib64/
 source $HOME/alias.sh
+CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/:$CUDNN_PATH/lib
+
