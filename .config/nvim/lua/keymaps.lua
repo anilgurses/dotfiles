@@ -82,9 +82,13 @@ keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
 
--- Write 
+-- Write
 keymap("n", "<leader>w", ":w<CR>", opts)
-keymap("n", "<leader>q", ":q!<CR>", opts)
+keymap("n", "<leader>q", ":qa!<CR>", opts)
 
--- Vista 
+-- Vista
 keymap("n", "<leader>v", ":Vista!!<CR>")
+
+-- Background change
+keymap("n", "<leader>bd", ":set background=dark<CR>")
+keymap("n", "<leader>bl", ":set background=light<cr>")
