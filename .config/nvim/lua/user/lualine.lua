@@ -19,7 +19,7 @@ function M.config()
         sources = { "nvim_diagnostic" },
         sections = { "error", "warn" },
         symbols = { error = " ", warn = " " },
-        colored = false,
+        colored = true,
         always_visible = true,
     }
 
@@ -35,19 +35,25 @@ function M.config()
         icons_enabled = false,
     }
 
+    local branch = {
+        "branch",
+        icon = "",
+    }
+
     local location = {
         "location",
-        padding = 0,
+        padding = 1,
     }
 
     local spaces = function()
         return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
     end
+
     lualine.setup {
         options = {
             globalstatus = true,
             icons_enabled = true,
-            theme = "auto",
+            theme = "powerline",
             component_separators = { left = "", right = "" },
             section_separators = { left = "", right = "" },
             disabled_filetypes = { "alpha", "dashboard" },
@@ -55,7 +61,7 @@ function M.config()
         },
         sections = {
             lualine_a = { "mode" },
-            lualine_b = { "branch" },
+            lualine_b = { branch },
             lualine_c = { diagnostics },
             lualine_x = { diff, spaces, "encoding", filetype },
             lualine_y = { location },
