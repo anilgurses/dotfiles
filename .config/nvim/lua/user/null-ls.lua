@@ -29,7 +29,10 @@ function M.config()
       formatting.black.with { extra_args = { "--fast" } },
       formatting.stylua,
       formatting.google_java_format,
+      formatting.latexindent,
+      formatting.fixjson,
       diagnostics.flake8,
+      diagnostics.hadolint,
     },
   }
 end
