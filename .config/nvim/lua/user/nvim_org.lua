@@ -1,21 +1,31 @@
 local M = {
-    "nvim-orgmode/orgmode",
-    lazy = false,
+  "nvim-neorg/neorg",
+  lazy = false,
+  build = ":Neorg sync-parsers",
+  dependencies = { "nvim-lua/plenary.nvim" },
 }
 
 function M.config()
-    local status_ok, orgmode = pcall(require, "orgmode")
-    if not status_ok then
-      return
-    end
-    orgmode.setup_ts_grammar()
+  local status_ok, orgmode = pcall(require, "neorg")
+  if not status_ok then
+    return
+  end
 
-    orgmode.setup({
-      org_agenda_files = {'~/org/agenda/*', '~/my-orgs/**/*'},
-      org_default_notes_file = '~/org/notes/refile.org',
-    })
+  orgmode.setup {
+    load = {
+      ["core.defaults"] = {}, -- Loads default behaviour
+      ["core.concealer"] = {}, -- Adds pretty icons to your documents
+      ["core.dirman"] = { -- Manages Neorg workspaces
+        config = {
+          workspaces = {
+            notes = "~/notes/general",
+            phd = "~/notes/phd",
+            wiki = "~/notes/wiki",
+          },
+        },
+      },
+    },
+  }
 end
 
 return M
-
-
