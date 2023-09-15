@@ -1,6 +1,6 @@
 local M = {
   "hrsh7th/nvim-cmp",
-  commit = "cfafe0a1ca8933f7b7968a287d39904156f2c57d",
+  commit = "5dce1b778b85c717f6614e3f4da45e9f19f54435",
   dependencies = {
     {
       "hrsh7th/cmp-nvim-lsp",

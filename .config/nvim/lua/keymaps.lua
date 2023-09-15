@@ -6,7 +6,6 @@ local opts = { silent = true }
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
