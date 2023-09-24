@@ -88,6 +88,10 @@ keymap("n", "<leader>q", ":qa!<CR>", opts)
 -- Vista
 keymap("n", "<leader>v", ":Vista!!<CR>")
 
+-- Neorg
+keymap("n", "<leader>no", ":Neorg index<CR>")
+keymap("n", "<leader>nw", ":Neorg workspace")
+
 -- Background change
 keymap("n", "<leader>bd", ":set background=dark<CR>")
 keymap("n", "<leader>bl", ":set background=light<cr>")
