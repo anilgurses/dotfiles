@@ -91,6 +91,7 @@ keymap("n", "<leader>v", ":Vista!!<CR>")
 -- Neorg
 keymap("n", "<leader>no", ":Neorg index<CR>")
 keymap("n", "<leader>nw", ":Neorg workspace")
+keymap("n", "<leader>nr", ":Neorg return<CR>")
 
 -- Background change
 keymap("n", "<leader>bd", ":set background=dark<CR>")
