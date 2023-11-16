@@ -15,7 +15,7 @@ M.servers = {
     "dockerls",
     "docker_compose_language_service",
     "opencl_ls",
-    "tailwindcss"
+    "pylsp"
 }
 
 return M

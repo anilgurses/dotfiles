@@ -82,7 +82,8 @@ keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
 
 -- Write
-keymap("n", "<leader>w", ":w<CR>", opts)
+keymap("n", "<leader>fs", ":w<CR>", opts)
+keymap("n", "<leader>fc", ":w ", opts)
 keymap("n", "<leader>q", ":qa!<CR>", opts)
 
 -- Vista
@@ -92,6 +93,13 @@ keymap("n", "<leader>v", ":Vista!!<CR>")
 keymap("n", "<leader>no", ":Neorg index<CR>")
 keymap("n", "<leader>nw", ":Neorg workspace")
 keymap("n", "<leader>nr", ":Neorg return<CR>")
+
+
+-- Vimwiki 
+keymap("n", "<leader>tt", ":VimwikiToggleListItem<CR>")
+keymap("n", "<leader>tr", ":VimwikiRemoveSingleCB<CR>")
+keymap("n", "<leader>tc", ":VimwikiTable ")
+
 
 -- Background change
 keymap("n", "<leader>bd", ":set background=dark<CR>")
