@@ -1,6 +1,6 @@
 local M = {
 "liuchengxu/vista.vim",
-commit = "58dabc027909330970ac549e52bf799a723878c5",
+commit = "290b815cd5a5ff1fb65a48936633d93e2bf14dbd",
 event = "VeryLazy"
 }
 vim.g["vista_default_executive"] = 'ctags'
