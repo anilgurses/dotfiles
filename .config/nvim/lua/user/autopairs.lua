@@ -1,11 +1,11 @@
 local M = {
   "windwp/nvim-autopairs",
-  commit = "0e065d423f9cf649e1d92443c939a4b5073b6768",
   event = "InsertEnter",
+  commit = "9fd41181693dd4106b3e414a822bb6569924de81",
   dependencies = {
     {
       "hrsh7th/nvim-cmp",
-      commit = "cfafe0a1ca8933f7b7968a287d39904156f2c57d",
+      commit = "538e37ba87284942c1d76ed38dd497e54e65b891",
       event = {
         "InsertEnter",
         "CmdlineEnter",
