@@ -1,29 +1,38 @@
 window:
-  opacity: 0.89
+  opacity: 0.9
   decorations: none
+  startup_mode: Maximized
+  dynamic_padding: false
+  padding:
+    x: 2
+    y: 8
+scale_with_dpi: true
+mouse:
+  hide_when_typing: true
 font:
   # The normal (roman) font face to use.
-  size: 10
+  size: 9.4
   normal:
-    family: Blex Mono Nerd Font
-    size: 10
+    family: MesloLGS NF
+    size: 9.4
     style: Regular
     # Style can be specified to pick a specific face.
     # style: Regular
     
   # The bold font face
   bold:
-    family: Blex Mono Nerd Font
+    family: MesloLGS NF
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: Blex Mono Nerd Font 
+    family: MesloLGS NF
     # Style can be specified to pick a specific face.
     style: Italic
 env:
   TERM: xterm-256color
+  WINIT_X11_SCALE_FACTOR: "1"
 import:
   - ~/.alacritty-colorscheme/themes/iterm.yaml
 
