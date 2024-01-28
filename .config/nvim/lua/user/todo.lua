@@ -1,7 +1,8 @@
 local M = {
     "folke/todo-comments.nvim",
-    commit = "74c7d28cb50b0713c881ef69bcb6cdd77d8907d1",
-    event = "VeryLazy",
+    commit = "4a6737a8d70fe1ac55c64dfa47fcb189ca431872",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = false,
 }
 
 function M.config()

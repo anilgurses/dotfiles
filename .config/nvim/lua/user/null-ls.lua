@@ -1,6 +1,6 @@
 local M = {
     "jose-elias-alvarez/null-ls.nvim",
-    lazy=false,
+    lazy = false,
     dependencies = {
         {
             "nvim-lua/plenary.nvim",
@@ -20,8 +20,11 @@ function M.config()
         sources = {
             formatting.stylua,
             formatting.prettier,
+            formatting.black,
+            formatting.autoflake,
+            formatting.autopep8,
             formatting.prettier.with {
-                extra_filetypes = { "toml" },
+                extra_filetypes = { "toml", "cpp" },
                 -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
             },
             -- null_ls.builtins.diagnostics.eslint,
