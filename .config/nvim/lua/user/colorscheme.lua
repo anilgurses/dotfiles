@@ -1,5 +1,11 @@
+-- local M = {
+--     "morhetz/gruvbox",
+--     lazy = false,  -- make sure we load this during startup if it is your main colorscheme
+--     priority = 1000, -- make sure to load this before all the other start plugins
+-- }
+
 local M = {
-    "morhetz/gruvbox",
+    "rebelot/kanagawa.nvim",
     lazy = false,  -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
 }
@@ -19,7 +25,7 @@ vim.g["gruvbox_contrast_dark"] = "medium"
 --
 -- M.name = "gruvbox-material"
 -- M.name = "kanagawa-wave"
-M.name = "gruvbox"
+M.name = "kanagawa"
 function M.config()
     -- vim.o.background = "dark"
     local status_ok, _ = pcall(vim.cmd.colorscheme, M.name)

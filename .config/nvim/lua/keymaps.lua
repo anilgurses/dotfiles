@@ -94,11 +94,13 @@ keymap("n", "<leader>no", ":Neorg index<CR>")
 keymap("n", "<leader>nw", ":Neorg workspace")
 keymap("n", "<leader>nr", ":Neorg return<CR>")
 
+-- ToggleTerm
+keymap("n", "<leader>t", ":ToggleTerm<CR>", opts)
 
 -- Vimwiki 
-keymap("n", "<leader>tt", ":VimwikiToggleListItem<CR>")
-keymap("n", "<leader>tr", ":VimwikiRemoveSingleCB<CR>")
-keymap("n", "<leader>tc", ":VimwikiTable ")
+keymap("n", "<leader>vt", ":VimwikiToggleListItem<CR>")
+keymap("n", "<leader>vr", ":VimwikiRemoveSingleCB<CR>")
+keymap("n", "<leader>vc", ":VimwikiTable ")
 
 
 -- Background change
