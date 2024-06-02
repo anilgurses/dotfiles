@@ -1,10 +1,9 @@
 local M = {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     lazy = false,
     dependencies = {
         {
             "nvim-lua/plenary.nvim",
-            commit = "9a0d3bf7b832818c042aaf30f692b081ddd58bd9",
             lazy = true,
         },
     },

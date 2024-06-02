@@ -1,17 +1,14 @@
 local M = {
     "nvim-treesitter/nvim-treesitter",
-    commit = "111a3f46116516bc04fe5bbcbd6ec71d704b71f3",
     event = "BufReadPost",
     dependencies = {
         {
             "JoosepAlviste/nvim-ts-context-commentstring",
             event = "VeryLazy",
-            commit = "729d83ecb990dc2b30272833c213cc6d49ed5214",
         },
         {
             "nvim-tree/nvim-web-devicons",
             event = "VeryLazy",
-            commit = "0568104bf8d0c3ab16395433fcc5c1638efc25d4",
         },
     },
 }
