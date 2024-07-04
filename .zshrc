@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,7 +15,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +77,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker vscode dnf command-not-found docker-compose gitignore)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,14 +107,22 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim'
-export PATH=/home/agrses/.local/bin/:$PATH:/usr/local/cuda-12.1/bin:/home/agrses/.cargo/bin
-export LD_LIBRARY_PATH=
+export PATH=/home/agrses/.local/bin/:$PATH:/usr/local/cuda-12.1/bin:/home/agrses/.cargo/bin:/home/agrses/go/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64
 export NVM_DIR="$HOME/.nvm"
 export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/python3.11/site-packages/nvidia/cudnn/lib/:/usr/lib64/
-source $HOME/alias.sh
-CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/:$CUDNN_PATH/lib
+source $HOME/.scripts/shortcuts.sh
+#CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/:$CUDNN_PATH/lib
+#export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:/usr/lib64/python3.11/site-packages/:$HOME/.local/lib/python3.12/site-packages:/usr/local/local/lib64/python3.12/site-packages/
+export EDITOR=nvim 
+export VISUAL=nvim
+export PATH=/opt/ltx/bin/:$PATH
+## This should always stay at the end of this file!
+eval "$(starship init zsh)"
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

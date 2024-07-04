@@ -13,7 +13,7 @@ font:
   # The normal (roman) font face to use.
   size: 9.4
   normal:
-    family: MesloLGS NF
+    family: Berkeley Mono Trial
     size: 9.4
     style: Regular
     # Style can be specified to pick a specific face.
