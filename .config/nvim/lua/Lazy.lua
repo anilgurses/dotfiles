@@ -17,7 +17,7 @@ vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappin
 -- load lazy
 require("lazy").setup("user", {
   install = { colorscheme = { require("user.colorscheme").name } },
-  defaults = { lazy = true, version = "57cce98dfdb2f2dd05a0567d89811e6d0505e13b" },
+  defaults = { lazy = true, version = "077102c5bfc578693f12377846d427f49bc50076" },
   ui = { wrap = "true" },
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true },

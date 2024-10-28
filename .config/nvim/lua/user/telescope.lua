@@ -39,6 +39,10 @@ require"telescope".setup {
         bibtex = {
             context = true,
         },
+        notify = {
+            position = "top",
+            timeout = 2,
+        },
     },
 }
 
