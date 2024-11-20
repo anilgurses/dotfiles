@@ -1,10 +1,10 @@
 local M = {
   "hrsh7th/nvim-cmp",
-  commit = "538e37ba87284942c1d76ed38dd497e54e65b891",
+  commit = "29fb4854573355792df9e156cb779f0d31308796",
   dependencies = {
     {
       "hrsh7th/cmp-nvim-lsp",
-      commit = "5af77f54de1b16c34b23cba810150689a3a90312",
+      commit = "39e2eda76828d88b773cc27a3f61d2ad782c922d",
     },
     {
       "hrsh7th/cmp-buffer",
@@ -16,7 +16,7 @@ local M = {
     },
     {
       "hrsh7th/cmp-cmdline",
-      commit = "8ee981b4a91f536f52add291594e89fb6645e451",
+      commit = "d250c63aa13ead745e3a40f61fdd3470efde3923",
     },
     {
       "saadparwaiz1/cmp_luasnip",
