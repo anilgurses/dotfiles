@@ -15,7 +15,19 @@
   {
     "context": "Editor",
     "bindings": {
-      // "j k": ["workspace::SendKeystrokes", "escape"]
+      "space l f": "editor::Format",
+      "space l r": "editor::Rename",
+      "space /": "vim::ToggleComments"
     }
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "space /": ["vim::toggleComments"]
+    }
+  },
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {}
   }
 ]
