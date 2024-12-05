@@ -9,8 +9,8 @@
 {
   "base_keymap": "VSCode",
   "vim_mode": true,
-  "ui_font_size": 14,
-  "buffer_font_size": 13,
+  "ui_font_size": 13,
+  "buffer_font_size": 12,
   "theme": {
     "mode": "system",
     "light": "Gruvbox Dark Soft",

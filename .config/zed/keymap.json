@@ -13,11 +13,12 @@
     }
   },
   {
-    "context": "Editor",
+    "context": "Editor && (vim_mode == normal || vim_mode == visual)",
     "bindings": {
       "space l f": "editor::Format",
       "space l r": "editor::Rename",
-      "space /": "vim::ToggleComments"
+      "space /": "vim::ToggleComments",
+      "shift-q": "pane::CloseActiveItem"
     }
   },
   {
