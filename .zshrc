@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker vscode dnf command-not-found docker-compose gitignore)
+plugins=(git docker vscode dnf command-not-found docker-compose gitignore fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,7 +106,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim'
 export PATH=/home/agrses/.local/bin/:$PATH:/usr/local/cuda-12.1/bin:/home/agrses/.cargo/bin:/home/agrses/go/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64
 export NVM_DIR="$HOME/.nvm"
