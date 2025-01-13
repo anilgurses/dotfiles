@@ -15,17 +15,22 @@ get_status() {
 }
 
 slideThroughText() {
+    local prev_track="$TRACK"
     local spStr="${ARTIST} | ${TRACK}"
     local len=${#spStr}
-    local display_len=20
-    local padding="                    "
+    local display_len=18
+    local padding="           "
 
     local loopStr="${spStr}${padding}${spStr}${padding}"
 
     for (( i=0; i<len+${#padding}; i++ )); do
+        get_track_name
+        if [ "$TRACK" != "$prev_track" ]; then
+            break
+        fi
         TEXT="${loopStr:i:display_len}"
         echo -ne "\r♫ ${TEXT}"
-        sleep 1
+        sleep 0.5
     done
 }
 
@@ -38,7 +43,7 @@ main() {
     if [ $STATUS = "Playing" ]; then
         slideThroughText
     else
-        echo "⏸"
+        echo "⏸ "
     fi
 }
 

@@ -17,7 +17,7 @@ local M = {
 -- }
 
 
-vim.g["gruvbox_contrast_dark"] = "medium"
+vim.g["gruvbox_contrast"] = "hard"
 -- vim.g["gruvbox_material_background"] = "medium"
 -- vim.g["gruvbox_material_better_performance"] = 1
 -- vim.g["gruvbox_material_sign_column_background"] = "grey"
