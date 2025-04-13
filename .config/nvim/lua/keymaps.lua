@@ -106,3 +106,12 @@ keymap("n", "<leader>vc", ":VimwikiTable ")
 -- Background change
 keymap("n", "<leader>bd", ":set background=dark<CR>")
 keymap("n", "<leader>bl", ":set background=light<cr>")
+
+-- Python execution
+keymap("n", "<leader>rp", ":w<cr>:!python3 %<cr>")
+keymap("n", "<leader>rpa", ":w<cr>:lua RunPythonWithArgs()<cr>", { noremap = true, silent = true })
+
+function RunPythonWithArgs()
+  local args = vim.fn.input("Arguments: ")
+  vim.cmd("!python3 % " .. args)
+end
