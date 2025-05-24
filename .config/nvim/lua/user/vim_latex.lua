@@ -1,6 +1,5 @@
 local M = {
     "lervag/vimtex",
-    commit = "877de3ba5de5f766e5bfa1c3fb0d2ecfcd18f868",
     lazy = false,
 }
 
