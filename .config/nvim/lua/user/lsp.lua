@@ -1,6 +1,6 @@
 local M = {
   "neovim/nvim-lspconfig",
-  lazy = true,
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     {
       "hrsh7th/cmp-nvim-lsp",
@@ -47,7 +47,7 @@ function M.config()
     require("illuminate").on_attach(client)
   end
 
-  for _, server in pairs(require("utils").servers) do
+  for _, server in ipairs(require("utils").servers) do
     Opts = {
       on_attach = on_attach,
       capabilities = capabilities,

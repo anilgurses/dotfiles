@@ -23,8 +23,10 @@ function M.config()
                 -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
             },
             -- null_ls.builtins.diagnostics.eslint,
+            formatting.black,
             null_ls.builtins.completion.spell,
             null_ls.builtins.code_actions.gitsigns,
+            null_ls.builtins.diagnostics.flake8,
         },
     }
 end
