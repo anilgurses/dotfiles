@@ -1,29 +1,38 @@
 local M = {
     "nvim-telescope/telescope.nvim",
-    commit = "40c31fdde93bcd85aeb3447bb3e2a3208395a868",
-    event = "Bufenter",
-    cmd = { "Telescope" },
     dependencies = {
-        {
-            "ahmedkhalf/project.nvim",
-            commit = "8c6bad7d22eef1b71144b401c9f74ed01526a4fb",
-        },
-        {
-            "nvim-telescope/telescope-bibtex.nvim",
-            commit = "e4dcf64d351db23b14be3563190cf68d5cd49e90",
-        },
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
+        { "nvim-lua/plenary.nvim" },
     },
+    -- lazy = true,
+    cmd = "Telescope",
 }
 
-local actions = require "telescope.actions"
-
 function M.config()
+    local wk = require "which-key"
+    wk.add {
+        { "<leader>bb", "<cmd>Telescope buffers previewer=false<cr>",                       desc = "Find" },
+        { "<leader>fb", "<cmd>Telescope git_branches<cr>",                                  desc = "Checkout branch" },
+        { "<leader>fc", "<cmd>Telescope colorscheme<cr>",                                   desc = "Colorscheme" },
+        { "<leader>ff", "<cmd>Telescope find_files<cr>",                                    desc = "Find files" },
+        { "<leader>fp", "<cmd>lua require('telescope').extensions.projects.projects()<cr>", desc = "Projects" },
+        { "<leader>ft", "<cmd>Telescope live_grep<cr>",                                     desc = "Find Text" },
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>",                                     desc = "Help" },
+        { "<leader>fl", "<cmd>Telescope resume<cr>",                                        desc = "Last Search" },
+        { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                                      desc = "Recent File" },
+    }
+
+    local actions = require "telescope.actions"
+
     require("telescope").setup {
         defaults = {
-            prompt_prefix = " ",
-            selection_caret = " ",
+            prompt_prefix = " " .. " ",
+            selection_caret = " " .. " ",
+            entry_prefix = "   ",
+            initial_mode = "insert",
+            selection_strategy = "reset",
             path_display = { "smart" },
-            file_ignore_patterns = { ".git/", "node_modules" },
+            color_devicons = true,
             vimgrep_arguments = {
                 "rg",
                 "--color=never",
@@ -33,25 +42,81 @@ function M.config()
                 "--column",
                 "--smart-case",
                 "--hidden",
-                "-g",
-                "!.git/",
+                "--glob=!.git/",
             },
+
             mappings = {
                 i = {
-                    ["<Down>"] = actions.move_selection_next,
-                    ["<Up>"] = actions.move_selection_previous,
+                    ["<C-n>"] = actions.cycle_history_next,
+                    ["<C-p>"] = actions.cycle_history_prev,
+
                     ["<C-j>"] = actions.move_selection_next,
                     ["<C-k>"] = actions.move_selection_previous,
                 },
+                n = {
+                    ["<esc>"] = actions.close,
+                    ["j"] = actions.move_selection_next,
+                    ["k"] = actions.move_selection_previous,
+                    ["q"] = actions.close,
+                },
+            },
+        },
+        pickers = {
+
+            find_files = {
+                theme = "dropdown",
+                previewer = false,
+            },
+
+            buffers = {
+                theme = "dropdown",
+                previewer = false,
+                initial_mode = "normal",
+                mappings = {
+                    i = {
+                        ["<C-d>"] = actions.delete_buffer,
+                    },
+                    n = {
+                        ["dd"] = actions.delete_buffer,
+                    },
+                },
+            },
+
+            planets = {
+                show_pluto = true,
+                show_moon = true,
+            },
+
+            colorscheme = {
+                enable_preview = true,
+            },
+
+            lsp_references = {
+                theme = "dropdown",
+                initial_mode = "normal",
+            },
+
+            lsp_definitions = {
+                theme = "dropdown",
+                initial_mode = "normal",
+            },
+
+            lsp_declarations = {
+                theme = "dropdown",
+                initial_mode = "normal",
+            },
+
+            lsp_implementations = {
+                theme = "dropdown",
+                initial_mode = "normal",
             },
         },
         extensions = {
-            bibtex = {
-                context = true,
-            },
-            notify = {
-                position = "top",
-                timeout = 2,
+            fzf = {
+                fuzzy = true,           -- false will only do exact matching
+                override_generic_sorter = true, -- override the generic sorter
+                override_file_sorter = true, -- override the file sorter
+                case_mode = "smart_case", -- or "ignore_case" or "respect_case"
             },
         },
     }

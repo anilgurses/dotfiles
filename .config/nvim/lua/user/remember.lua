@@ -1,6 +1,5 @@
 local M = {
   "ethanholz/nvim-lastplace",
-  commit = "75a2b78bdbbd20467d499defceb5b20c0967a1ca",
   event = "VeryLazy",
 }
 
