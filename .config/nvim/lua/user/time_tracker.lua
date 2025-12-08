@@ -1,6 +1,9 @@
 local M = {
     "wakatime/vim-wakatime",
     lazy = false,
+    enabled = function()
+        return not vim.env.NO_WAKA
+    end,
 }
 
 function M.config()
