@@ -1,6 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="eastwood"
+ZSH_THEME="simple"
 
 plugins=(git docker vscode dnf command-not-found docker-compose gitignore fzf gpg-agent)
 
