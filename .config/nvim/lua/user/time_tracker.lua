@@ -1,9 +1,6 @@
 local M = {
     "wakatime/vim-wakatime",
-    lazy = false,
-    enabled = function()
-        return not vim.env.NO_WAKA
-    end,
+    event = { "BufReadPost", "BufNewFile" },
 }
 
 function M.config()

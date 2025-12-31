@@ -27,10 +27,16 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 -- Saving last position
 vim.api.nvim_create_autocmd('BufRead', {
   callback = function(opts)
+    if not vim.api.nvim_buf_is_valid(opts.buf) then
+      return
+    end
     vim.api.nvim_create_autocmd('BufWinEnter', {
       once = true,
       buffer = opts.buf,
       callback = function()
+        if not vim.api.nvim_buf_is_valid(opts.buf) then
+          return
+        end
         local ft = vim.bo[opts.buf].filetype
         local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
         if
@@ -51,6 +57,22 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "SessionLoadPost" }, {
+  callback = function()
+    vim.schedule(function()
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+          if vim.bo[buf].buftype == "" and vim.bo[buf].filetype == "" then
+            vim.api.nvim_buf_call(buf, function()
+              vim.cmd "filetype detect"
+            end)
+          end
+        end
+      end
+    end)
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   pattern = { "*.java" },
   callback = function()
@@ -58,24 +80,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  callback = function()
-    vim.cmd "hi link illuminatedWord LspReferenceText"
-  end,
-})
-
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern= {"cpp"},
   callback = function()
     vim.cmd "set keywordprg=cppman"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-  callback = function()
-    local line_count = vim.api.nvim_buf_line_count(0)
-    if line_count >= 5000 then
-      vim.cmd "IlluminatePauseBuf"
-    end
   end,
 })

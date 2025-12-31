@@ -1,12 +1,6 @@
 local M = {
   "ahmedkhalf/project.nvim",
-  dependencies = {
-    {
-      "nvim-telescope/telescope.nvim",
-      event = "Bufenter",
-      cmd = { "Telescope" },
-    },
-  },
+  event = "VimEnter",
 }
 
 function M.config()
@@ -20,8 +14,10 @@ function M.config()
     patterns = { ".git", "Makefile", "package.json" },
   }
 
-  local telescope = require "telescope"
-  telescope.load_extension "projects"
+  local telescope_ok, telescope = pcall(require, "telescope")
+  if telescope_ok then
+    telescope.load_extension "projects"
+  end
 end
 
 return M

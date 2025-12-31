@@ -1,10 +1,10 @@
-local M = {
+local dap_spec = {
   "mfussenegger/nvim-dap",
   commit = "6b12294a57001d994022df8acbe2ef7327d30587",
   event = "VeryLazy",
 }
 
-function M.config()
+function dap_spec.config()
   local dap = require "dap"
 
   local dap_ui_status_ok, dapui = pcall(require, "dapui")
@@ -54,14 +54,4 @@ function M.config()
   }
 end
 
-M = {
-  "ravenxrz/DAPInstall.nvim",
-  commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
-  lazy = true,
-  config = function()
-    require("dap_install").setup {}
-    require("dap_install").config("python", {})
-  end,
-}
-
-return M
+return { dap_spec }

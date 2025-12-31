@@ -1,6 +1,6 @@
 local M = {
     "lervag/vimtex",
-    lazy = false,
+    ft = { "tex", "plaintex", "latex" },
 }
 
 function M.config()

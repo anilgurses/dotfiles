@@ -1,6 +1,6 @@
 local M = {
     "kkoomen/vim-doge",
-    lazy=false
+    event = "VeryLazy",
 }
 
 function M.config()

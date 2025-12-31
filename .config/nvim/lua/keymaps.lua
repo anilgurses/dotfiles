@@ -97,14 +97,8 @@ keymap("n", "<leader>nr", ":Neorg return<CR>")
 -- ToggleTerm
 keymap("n", "<leader>t", ":ToggleTerm<CR>", opts)
 
--- Vimwiki 
-keymap("n", "<leader>vt", ":VimwikiToggleListItem<CR>")
-keymap("n", "<leader>vr", ":VimwikiRemoveSingleCB<CR>")
-keymap("n", "<leader>vc", ":VimwikiTable ")
-
-
--- Background change
-keymap("n", "<leader>bd", ":set background=dark<CR>")
+-- Build in container
+keymap("n", "<leader>bd", ":BuildInContainer<CR>", opts)
 keymap("n", "<leader>bl", ":set background=light<cr>")
 
 -- Python execution
@@ -115,3 +109,6 @@ function RunPythonWithArgs()
   local args = vim.fn.input("Arguments: ")
   vim.cmd("!python3 % " .. args)
 end
+
+-- Build logs
+keymap("n", "<leader>br", ":BuildContainerLogs<CR>", opts)
