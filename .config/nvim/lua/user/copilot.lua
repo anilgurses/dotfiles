@@ -12,8 +12,6 @@ function M.config()
     vim.g.copilot_no_tab_map = true
     vim.g.copilot_assume_mapped = true
     vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-
-    vim.g.copilot_settings = { selectedCompletionModel = "gemini-3-pro" }
 end
 
 return M
