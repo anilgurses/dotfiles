@@ -12,36 +12,14 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64
 export NVM_DIR="$HOME/.nvm"
 export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 
-# Lazy load NVM
-nvm() {
-  unset -f nvm node npm npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
- 
-node() {
-  unset -f nvm node npm npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  node "$@"
-}
- 
-npm() {
-  unset -f nvm node npm npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  npm "$@"
-}
+# NVM
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  nvm use --silent default >/dev/null 2>&1
+fi
 
-npx() {
-  unset -f nvm node npm npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  npx "$@"
-}
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/python3.11/site-packages/nvidia/cudnn/lib/:/usr/lib64/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/
 export EDITOR=nvim 
 export VISUAL=nvim
 
@@ -57,27 +35,20 @@ case ":$PATH:" in
 esac
 # pnpm end
 #
-if command -v gpgconf >/dev/null 2>&1; then
-    if [ ! -d "$HOME/.gnupg" ]; then
-        mkdir -p "$HOME/.gnupg"
-        chmod 700 "$HOME/.gnupg"
-    fi
-    gpgconf --launch gpg-agent
-    gpg-connect-agent /bye
-    export GPG_TTY=$(tty)
-    echo UPDATESTARTUPTTY | gpg-connect-agent > /dev/null
+
+export GPG_TTY="$(tty)"
+if [ -S "$HOME/.gnupg/S.gpg-agent" ]; then
+  export GPG_AGENT_INFO=
 fi
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
 if [ -f "$HOME/.scripts/.env" ]; then
     source "$HOME/.scripts/.env"
 fi
 
 export PYENV_ROOT="$HOME/.pyenv"
-if command -v pyenv >/dev/null 2>&1; then
-    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-fi
-
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
@@ -89,3 +60,13 @@ fi
 if [ -f "$HOME/.uv_completion.zsh" ]; then
     source "$HOME/.uv_completion.zsh"
 fi
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+PROMPT="$fg[blue]%}@%{$fg[cyan]%}%m ${PROMPT}"
