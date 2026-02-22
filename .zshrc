@@ -16,7 +16,6 @@ export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   . "$NVM_DIR/nvm.sh"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  nvm use --silent default >/dev/null 2>&1
 fi
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/
@@ -67,6 +66,3 @@ fi
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-
-PROMPT="$fg[blue]%}@%{$fg[cyan]%}%m ${PROMPT}"
