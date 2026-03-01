@@ -1,0 +1,7 @@
+# C/C++ build metadata
+compile_commands.json
+compile-commands.json
+compile_flags.txt
+# local editor/tag artifacts
+.tags
+
