@@ -18,8 +18,13 @@ function M.init()
 end
 
 function M.config()
-    local treesitter = require "nvim-treesitter"
-    local configs = require "nvim-treesitter.configs"
+    local ok, configs = pcall(require, "nvim-treesitter.configs")
+    if not ok then
+        vim.schedule(function()
+            vim.notify("nvim-treesitter is not installed. Run :Lazy sync", vim.log.levels.WARN)
+        end)
+        return
+    end
 
     configs.setup {
         ensure_installed = {
