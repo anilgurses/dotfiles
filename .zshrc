@@ -7,10 +7,34 @@ plugins=(git fzf docker)
 source $ZSH/oh-my-zsh.sh
 
 export PATH="$HOME/.npm-global/bin:/opt/ltx/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH:/usr/local/cuda-12.1/bin:$HOME/.cargo/bin:$HOME/go/bin"
+export PATH="$HOME/.local/bin:$PATH:$HOME/.cargo/bin:$HOME/go/bin"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64
 export NVM_DIR="$HOME/.nvm"
 export UHD_IMAGES_DIR=/usr/local/share/uhd/images
+
+# CUDA: use /usr/local/cuda when present, otherwise pick the highest cuda-* version.
+if [ -d "/usr/local/cuda" ]; then
+    export CUDA_HOME="/usr/local/cuda"
+else
+    _latest_cuda_dir="$(ls -d /usr/local/cuda-[0-9]* 2>/dev/null | sort -V | tail -n 1)"
+    [ -n "$_latest_cuda_dir" ] && export CUDA_HOME="$_latest_cuda_dir"
+    unset _latest_cuda_dir
+fi
+
+if [ -n "$CUDA_HOME" ]; then
+    if [ -d "$CUDA_HOME/bin" ]; then
+        case ":$PATH:" in
+            *":$CUDA_HOME/bin:"*) ;;
+            *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+        esac
+    fi
+    if [ -d "$CUDA_HOME/lib64" ]; then
+        case ":$LD_LIBRARY_PATH:" in
+            *":$CUDA_HOME/lib64:"*) ;;
+            *) export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64" ;;
+        esac
+    fi
+fi
 
 # NVM
 if [ -s "$NVM_DIR/nvm.sh" ]; then
