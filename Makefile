@@ -23,10 +23,14 @@ TMUX_DIR_DEST ?= $(HOME)/.tmux
 NVIM_DIR_SRC := $(DOTFILES_DIR)/.config/nvim
 NVIM_DIR_DEST ?= $(HOME)/.config/nvim
 
+GIT_IGNORE_SRC := $(DOTFILES_DIR)/.config/git/ignore
+GIT_IGNORE_DEST ?= $(HOME)/.config/git/ignore
+GIT_USER_NAME ?= Anil Gurses
+
 .PHONY: help install install-linux install-mac install-common \
-	install-alias-linux install-alias-mac install-zshrc install-tmux install-nvim \
+	install-alias-linux install-alias-mac install-zshrc install-tmux install-nvim install-git-config \
 	uninstall uninstall-common uninstall-alias-linux uninstall-alias-mac uninstall-zshrc \
-	uninstall-tmux uninstall-nvim \
+	uninstall-tmux uninstall-nvim uninstall-git-config \
 	install-deps install-deps-linux install-deps-mac create-venv
 
 help:
@@ -38,12 +42,14 @@ help:
 		'  install-zshrc      Install .zshrc' \
 		'  install-tmux       Install tmux config' \
 		'  install-nvim       Install Neovim config' \
+		'  install-git-config Install git global config' \
 		'  install-deps       Install dependencies for the current OS' \
 		'  create-venv        Create a Python venv for dotfiles' \
 		'  uninstall          Remove OS-specific installs' \
 		'  uninstall-zshrc    Remove .zshrc symlink' \
 		'  uninstall-tmux     Remove tmux symlinks' \
 		'  uninstall-nvim     Remove Neovim symlink' \
+		'  uninstall-git-config Remove git ignore symlink' \
 		'' \
 		'Notes:' \
 		"  Linux aliases -> $(ALIAS_DEST_LINUX)" \
@@ -63,7 +69,7 @@ install-linux: install-common install-alias-linux
 
 install-mac: install-common install-alias-mac
 
-install-common: install-zshrc install-tmux install-nvim
+install-common: install-zshrc install-tmux install-nvim install-git-config
 
 install-alias-linux:
 	@if [ -e "$(ALIAS_DEST_LINUX)" ] && [ ! -L "$(ALIAS_DEST_LINUX)" ]; then \
@@ -132,6 +138,25 @@ install-nvim:
 	@mkdir -p "$(HOME)/.config"
 	@ln -sfn "$(NVIM_DIR_SRC)" "$(NVIM_DIR_DEST)"
 	@printf 'Linked %s -> %s\n' "$(NVIM_DIR_SRC)" "$(NVIM_DIR_DEST)"
+
+install-git-config:
+	@if [ -e "$(GIT_IGNORE_DEST)" ] && [ ! -L "$(GIT_IGNORE_DEST)" ]; then \
+		mkdir -p "$(BACKUP_DIR)"; \
+		ts=$$(date +%Y%m%d%H%M%S); \
+		mv "$(GIT_IGNORE_DEST)" "$(BACKUP_DIR)/$$(basename "$(GIT_IGNORE_DEST)").$${ts}.bak"; \
+		printf 'Backed up %s -> %s\n' "$(GIT_IGNORE_DEST)" "$(BACKUP_DIR)"; \
+	fi
+	@mkdir -p "$(dir $(GIT_IGNORE_DEST))"
+	@ln -sfn "$(GIT_IGNORE_SRC)" "$(GIT_IGNORE_DEST)"
+	@printf 'Linked %s -> %s\n' "$(GIT_IGNORE_SRC)" "$(GIT_IGNORE_DEST)"
+	@if command -v git >/dev/null 2>&1; then \
+		git config --global user.name "$(GIT_USER_NAME)"; \
+		git config --global core.excludesfile "$(GIT_IGNORE_DEST)"; \
+		printf 'Configured git user.name=%s\n' "$(GIT_USER_NAME)"; \
+		printf 'Configured git core.excludesfile=%s\n' "$(GIT_IGNORE_DEST)"; \
+	else \
+		printf 'git not found; skipped git config updates\n'; \
+	fi
 
 install-deps:
 	@if [ "$(OS)" = "Darwin" ]; then \
@@ -208,7 +233,7 @@ uninstall:
 		exit 1; \
 	fi
 
-uninstall-common: uninstall-zshrc uninstall-tmux uninstall-nvim
+uninstall-common: uninstall-zshrc uninstall-tmux uninstall-nvim uninstall-git-config
 
 uninstall-alias-linux:
 	@if [ -L "$(ALIAS_DEST_LINUX)" ]; then rm -f "$(ALIAS_DEST_LINUX)"; fi
@@ -231,3 +256,7 @@ uninstall-tmux:
 uninstall-nvim:
 	@if [ -L "$(NVIM_DIR_DEST)" ]; then rm -f "$(NVIM_DIR_DEST)"; fi
 	@printf 'Removed %s\n' "$(NVIM_DIR_DEST)"
+
+uninstall-git-config:
+	@if [ -L "$(GIT_IGNORE_DEST)" ]; then rm -f "$(GIT_IGNORE_DEST)"; fi
+	@printf 'Removed %s\n' "$(GIT_IGNORE_DEST)"
