@@ -1,7 +1,6 @@
 local M = {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    build = ":TSUpdate",
+    event = "BufReadPost",
     dependencies = {
         {
             "JoosepAlviste/nvim-ts-context-commentstring",
@@ -13,46 +12,48 @@ local M = {
         },
     },
 }
+
+function M.init()
+    vim.g.skip_ts_context_commentstring_module = true
+end
+
 function M.config()
-    local ts = require "nvim-treesitter"
-    local ensure_installed = {
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "bash",
-        "python",
-        "cpp",
-        "c",
-        "cmake",
-        "dockerfile",
-        "devicetree",
-        "go",
-        "html",
-        "matlab",
-        "verilog",
-        "proto",
-        "yaml",
+    local treesitter = require "nvim-treesitter"
+    local configs = require "nvim-treesitter.configs"
+
+    configs.setup {
+        ensure_installed = {
+            "lua",
+            "markdown",
+            "markdown_inline",
+            "bash",
+            "python",
+            "cpp",
+            "c",
+            "cmake",
+            "dockerfile",
+            "devicetree",
+            "go",
+            "html",
+            "matlab",
+            "verilog",
+            "proto",
+            "yaml",
+        },                   -- put the language you want in this array
+        -- ensure_installed = "all", -- one of "all" or a list of languages
+        ignore_install = { "" }, -- List of parsers to ignore installing
+        sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+
+        highlight = {
+            enable = true, -- false will disable the whole extension
+            disable = { "css" }, -- list of language that will be disabled
+        },
+
+        autopairs = {
+            enable = true,
+        },
+        indent = { enable = true, disable = { "python", "css" } },
     }
-
-    ts.setup {
-        install_dir = vim.fn.stdpath "data" .. "/site",
-    }
-    ts.install(ensure_installed)
-
-    local highlight_disable = { css = true }
-    local indent_disable = { python = true, css = true }
-
-    vim.api.nvim_create_autocmd("FileType", {
-        callback = function(args)
-            local ft = vim.bo[args.buf].filetype
-            if not highlight_disable[ft] then
-                pcall(vim.treesitter.start, args.buf)
-            end
-            if not indent_disable[ft] then
-                vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-            end
-        end,
-    })
 end
 
 return M

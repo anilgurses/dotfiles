@@ -1,4 +1,5 @@
 require "options"
+require "filetypes"
 require "keymaps"
 require "Lazy"
 require "autocommands"
