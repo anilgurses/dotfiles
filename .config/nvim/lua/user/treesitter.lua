@@ -1,5 +1,6 @@
 local M = {
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     event = "BufReadPost",
     dependencies = {
         {
@@ -11,22 +12,8 @@ local M = {
             event = "VeryLazy",
         },
     },
-}
-
-function M.init()
-    vim.g.skip_ts_context_commentstring_module = true
-end
-
-function M.config()
-    local ok, configs = pcall(require, "nvim-treesitter.configs")
-    if not ok then
-        vim.schedule(function()
-            vim.notify("nvim-treesitter is not installed. Run :Lazy sync", vim.log.levels.WARN)
-        end)
-        return
-    end
-
-    configs.setup {
+    main = "nvim-treesitter.configs",
+    opts = {
         ensure_installed = {
             "lua",
             "markdown",
@@ -58,7 +45,11 @@ function M.config()
             enable = true,
         },
         indent = { enable = true, disable = { "python", "css" } },
-    }
+    },
+}
+
+function M.init()
+    vim.g.skip_ts_context_commentstring_module = true
 end
 
 return M
