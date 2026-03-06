@@ -1,5 +1,6 @@
 -- Shorten function name
 local keymap = vim.keymap.set
+local utils = require "utils"
 -- Silent keymap option
 local opts = { silent = true }
 
@@ -84,7 +85,10 @@ keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opt
 -- Write
 keymap("n", "<leader>fs", ":w<CR>", opts)
 keymap("n", "<leader>fc", ":w ", opts)
-keymap("n", "<leader>q", ":qa!<CR>", opts)
+keymap("n", "<leader>q", function()
+  utils.close_terminal_buffers()
+  vim.cmd "confirm qall"
+end, opts)
 
 -- Vista
 keymap("n", "<leader>v", ":Vista!!<CR>")
