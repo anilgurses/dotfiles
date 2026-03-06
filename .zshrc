@@ -37,10 +37,22 @@ if [ -n "$CUDA_HOME" ]; then
 fi
 
 # NVM
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-  . "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-fi
+lazy_load_nvm() {
+    [ -s "$NVM_DIR/nvm.sh" ] || return 1
+
+    unset -f nvm node npm npx pnpm corepack yarn yarnpkg
+    . "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+}
+
+nvm() { lazy_load_nvm && nvm "$@"; }
+node() { lazy_load_nvm && node "$@"; }
+npm() { lazy_load_nvm && npm "$@"; }
+npx() { lazy_load_nvm && npx "$@"; }
+pnpm() { lazy_load_nvm && pnpm "$@"; }
+corepack() { lazy_load_nvm && corepack "$@"; }
+yarn() { lazy_load_nvm && yarn "$@"; }
+yarnpkg() { lazy_load_nvm && yarnpkg "$@"; }
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/
 export EDITOR=nvim 
