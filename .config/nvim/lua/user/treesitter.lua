@@ -47,47 +47,15 @@ function M.init()
 end
 
 function M.config()
-  local ts = require("nvim-treesitter")
-  ts.setup()
-
-  local available = {}
-  for _, lang in ipairs(ts.get_available()) do
-    available[lang] = true
-  end
-
-  local installed = {}
-  for _, lang in ipairs(ts.get_installed()) do
-    installed[lang] = true
-  end
-
-  local missing = {}
-  for _, lang in ipairs(parsers) do
-    if available[lang] and not installed[lang] then
-      table.insert(missing, lang)
-    end
-  end
-
-  if #missing > 0 then
-    ts.install(missing, { summary = true })
-  end
-
-  local group = vim.api.nvim_create_augroup("UserTreesitter", { clear = true })
-  vim.api.nvim_create_autocmd("FileType", {
-    group = group,
-    callback = function(args)
-      local ft = vim.bo[args.buf].filetype
-      if highlight_disabled[ft] then
-        return
-      end
-
-      if not pcall(vim.treesitter.start, args.buf) then
-        return
-      end
-
-      if not indent_disabled[ft] then
-        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      end
-    end,
+  require("nvim-treesitter.configs").setup({
+    highlight = {
+      enable = true,
+      disable = vim.tbl_keys(highlight_disabled),
+    },
+    indent = {
+      enable = true,
+      disable = vim.tbl_keys(indent_disabled),
+    },
   })
 end
 
