@@ -12,7 +12,7 @@ local parsers = {
   "go",
   "html",
   "matlab",
-  "vlog",
+  "verilog",
   "proto",
   "yaml",
 }
@@ -47,7 +47,10 @@ function M.init()
 end
 
 function M.config()
-  require("nvim-treesitter.configs").setup({
+  local ok, configs = pcall(require, "nvim-treesitter.configs")
+  local mod = ok and configs or require("nvim-treesitter")
+  mod.setup({
+    ensure_installed = parsers,
     highlight = {
       enable = true,
       disable = vim.tbl_keys(highlight_disabled),
