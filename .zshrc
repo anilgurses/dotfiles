@@ -12,27 +12,28 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64
 export NVM_DIR="$HOME/.nvm"
 export UHD_IMAGES_DIR=/usr/local/share/uhd/images
 
-# CUDA: use /usr/local/cuda when present, otherwise pick the highest cuda-* version.
-if [ -d "/usr/local/cuda" ]; then
-    export CUDA_HOME="/usr/local/cuda"
-else
-    _latest_cuda_dir="$(ls -d /usr/local/cuda-[0-9]* 2>/dev/null | sort -V | tail -n 1)"
-    [ -n "$_latest_cuda_dir" ] && export CUDA_HOME="$_latest_cuda_dir"
-    unset _latest_cuda_dir
-fi
-
-if [ -n "$CUDA_HOME" ]; then
-    if [ -d "$CUDA_HOME/bin" ]; then
-        case ":$PATH:" in
-            *":$CUDA_HOME/bin:"*) ;;
-            *) export PATH="$CUDA_HOME/bin:$PATH" ;;
-        esac
+if [[ "$OSTYPE" != darwin* ]]; then
+    if [ -d "/usr/local/cuda" ]; then
+        export CUDA_HOME="/usr/local/cuda"
+    else
+        _latest_cuda_dir="$(printf '%s\n' /usr/local/cuda-[0-9]*(N) | sort -V | tail -n 1)"
+        [ -n "$_latest_cuda_dir" ] && export CUDA_HOME="$_latest_cuda_dir"
+        unset _latest_cuda_dir
     fi
-    if [ -d "$CUDA_HOME/lib64" ]; then
-        case ":$LD_LIBRARY_PATH:" in
-            *":$CUDA_HOME/lib64:"*) ;;
-            *) export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64" ;;
-        esac
+
+    if [ -n "$CUDA_HOME" ]; then
+        if [ -d "$CUDA_HOME/bin" ]; then
+            case ":$PATH:" in
+                *":$CUDA_HOME/bin:"*) ;;
+                *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+            esac
+        fi
+        if [ -d "$CUDA_HOME/lib64" ]; then
+            case ":$LD_LIBRARY_PATH:" in
+                *":$CUDA_HOME/lib64:"*) ;;
+                *) export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64" ;;
+            esac
+        fi
     fi
 fi
 
