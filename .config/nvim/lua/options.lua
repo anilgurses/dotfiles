@@ -1,5 +1,4 @@
 vim.opt.backup = false                          -- creates a backup file
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 if not os.getenv("DISPLAY") and not os.getenv("WAYLAND_DISPLAY") then
   vim.g.clipboard = {
     name = "OSC 52",
@@ -13,6 +12,7 @@ if not os.getenv("DISPLAY") and not os.getenv("WAYLAND_DISPLAY") then
     },
   }
 end
+vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
