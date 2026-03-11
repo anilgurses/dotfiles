@@ -1,5 +1,9 @@
 vim.opt.backup = false                          -- creates a backup file
-if not os.getenv("DISPLAY") and not os.getenv("WAYLAND_DISPLAY") then
+
+local has_clipboard = os.getenv("DISPLAY") or os.getenv("WAYLAND_DISPLAY")
+local is_remote_session = os.getenv("SSH_TTY") or os.getenv("SSH_CONNECTION")
+
+if is_remote_session or not has_clipboard then
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
