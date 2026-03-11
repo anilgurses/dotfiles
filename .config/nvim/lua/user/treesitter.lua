@@ -28,7 +28,7 @@ local indent_disabled = {
 
 local M = {
   "nvim-treesitter/nvim-treesitter",
-  lazy = false,
+  event = { "BufReadPost", "BufNewFile" },
   build = ":TSUpdate",
   dependencies = {
     {
@@ -51,6 +51,7 @@ function M.config()
   local mod = ok and configs or require("nvim-treesitter")
   mod.setup({
     ensure_installed = parsers,
+    auto_install = true,
     highlight = {
       enable = true,
       disable = vim.tbl_keys(highlight_disabled),
