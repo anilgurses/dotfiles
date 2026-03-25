@@ -105,3 +105,46 @@ fi
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+pyvenv() {
+    local venv_home="$HOME/venvs"
+    local activate_path
+    local env_name
+    local found=0
+
+    if [[ ! -d "$venv_home" ]]; then
+        echo "Virtualenv directory not found: $venv_home"
+        return 1
+    fi
+
+    if [[ $# -eq 0 ]]; then
+        echo "Available virtualenvs:"
+        for activate_path in "$venv_home"/*/bin/activate(N); do
+            env_name="${activate_path%/bin/activate}"
+            env_name="${env_name##*/}"
+            printf '  %s\n' "$env_name"
+            found=1
+        done
+
+        if [[ $found -eq 0 ]]; then
+            echo "  none found in $venv_home"
+            return 1
+        fi
+
+        echo "Usage: venv <name>"
+        return 0
+    fi
+
+    activate_path="$venv_home/$1/bin/activate"
+    if [[ ! -f "$activate_path" ]]; then
+        echo "Virtualenv '$1' not found in $venv_home"
+        venv
+        return 1
+    fi
+
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        deactivate 2>/dev/null
+    fi
+
+    source "$activate_path"
+}
