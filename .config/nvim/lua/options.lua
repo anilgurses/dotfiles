@@ -1,22 +1,28 @@
 vim.opt.backup = false                          -- creates a backup file
 
-local has_clipboard = os.getenv("DISPLAY") or os.getenv("WAYLAND_DISPLAY")
-local is_remote_session = os.getenv("SSH_TTY") or os.getenv("SSH_CONNECTION")
+local has_display = os.getenv("DISPLAY") or os.getenv("WAYLAND_DISPLAY")
+local is_remote = os.getenv("SSH_TTY") or os.getenv("SSH_CONNECTION")
 
-if is_remote_session or not has_clipboard then
+if is_remote and not has_display then
+  local osc52 = require("vim.ui.clipboard.osc52")
+
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
     },
     paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+      ["+"] = function() return {} end,
+      ["*"] = function() return {} end,
     },
   }
+
+  vim.opt.clipboard = ""
+else
+  vim.opt.clipboard = "unnamedplus"
 end
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
