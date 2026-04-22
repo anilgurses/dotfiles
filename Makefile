@@ -18,6 +18,9 @@ DNF_PACKAGES := git curl zsh tmux neovim ripgrep fzf make gcc gcc-c++ cmake node
 DNF_LATEX_PACKAGES := texlive-scheme-basic texlive-collection-latexextra latexmk okular
 APT_PACKAGES := git curl zsh tmux neovim ripgrep fzf build-essential cmake nodejs npm unzip python3-pip
 APT_LATEX_PACKAGES := texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-pictures latexmk okular
+CHARM_APT_KEYRING := /etc/apt/keyrings/charm.gpg
+CHARM_APT_LIST := /etc/apt/sources.list.d/charm.list
+CHARM_YUM_REPO := /etc/yum.repos.d/charm.repo
 
 OH_MY_ZSH_DIR ?= $(HOME)/.oh-my-zsh
 ZSHRC_SRC := $(DOTFILES_DIR)/.zshrc
@@ -41,6 +44,7 @@ GIT_USER_NAME ?= Anil Gurses
 	uninstall uninstall-common uninstall-alias-linux uninstall-alias-mac uninstall-zshrc \
 	uninstall-tmux uninstall-nvim uninstall-git-config \
 	install-deps install-deps-linux install-deps-mac install-deps-brew install-deps-dnf install-deps-apt \
+	install-glow install-glow-brew install-glow-dnf install-glow-apt \
 	install-pyenv create-venv
 
 help:
@@ -59,6 +63,7 @@ help:
 		'  install-deps-brew  Install macOS dependencies with Homebrew' \
 		'  install-deps-dnf   Install dependencies with dnf' \
 		'  install-deps-apt   Install dependencies with apt' \
+		'  install-glow       Install glow for the current OS/package manager' \
 		'  create-venv        Create a Python venv for dotfiles' \
 		'  uninstall          Remove OS-specific installs' \
 		'  uninstall-zshrc    Remove .zshrc symlink' \
@@ -215,11 +220,62 @@ install-deps-linux:
 		exit 1; \
 	fi
 
+install-glow:
+	@if [ "$(OS)" = "Darwin" ]; then \
+		$(MAKE) install-glow-brew; \
+	elif [ "$(OS)" = "Linux" ]; then \
+		if command -v dnf >/dev/null 2>&1; then \
+			$(MAKE) install-glow-dnf; \
+		elif command -v apt-get >/dev/null 2>&1; then \
+			$(MAKE) install-glow-apt; \
+		else \
+			printf 'No supported package manager found (dnf/apt-get)\n'; \
+			exit 1; \
+		fi; \
+	else \
+		printf 'Unsupported OS: %s\n' "$(OS)"; \
+		exit 1; \
+	fi
+
+install-glow-brew:
+	@[ "$(OS)" = "Darwin" ] || { printf 'install-glow-brew is only supported on macOS\n'; exit 1; }
+	@command -v brew >/dev/null 2>&1 || { printf 'Homebrew not found\n'; exit 1; }
+	@brew install glow
+	@printf 'Installed glow with Homebrew\n'
+
+install-glow-dnf:
+	@command -v dnf >/dev/null 2>&1 || { printf 'dnf not found\n'; exit 1; }
+	@if [ ! -f "$(CHARM_YUM_REPO)" ] || ! grep -q '^baseurl=https://repo.charm.sh/yum/' "$(CHARM_YUM_REPO)" 2>/dev/null; then \
+		printf '%s\n' \
+			'[charm]' \
+			'name=Charm' \
+			'baseurl=https://repo.charm.sh/yum/' \
+			'enabled=1' \
+			'gpgcheck=1' \
+			'gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee "$(CHARM_YUM_REPO)" >/dev/null; \
+	fi
+	@sudo dnf install -y glow
+	@printf 'Installed glow with dnf\n'
+
+install-glow-apt:
+	@command -v apt-get >/dev/null 2>&1 || { printf 'apt-get not found\n'; exit 1; }
+	@if ! command -v curl >/dev/null 2>&1 || ! command -v gpg >/dev/null 2>&1; then \
+		sudo apt-get update; \
+		sudo apt-get install -y curl gpg; \
+	fi
+	@sudo mkdir -p "$(dir $(CHARM_APT_KEYRING))"
+	@curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor --yes -o "$(CHARM_APT_KEYRING)"
+	@printf '%s\n' 'deb [signed-by=$(CHARM_APT_KEYRING)] https://repo.charm.sh/apt/ * *' | sudo tee "$(CHARM_APT_LIST)" >/dev/null
+	@sudo apt-get update
+	@sudo apt-get install -y glow
+	@printf 'Installed glow with apt\n'
+
 install-deps-brew:
 	@[ "$(OS)" = "Darwin" ] || { printf 'install-deps-brew is only supported on macOS\n'; exit 1; }
 	@command -v brew >/dev/null 2>&1 || { printf 'Homebrew not found\n'; exit 1; }
 	@brew install $(BREW_PACKAGES)
 	@brew install --cask $(BREW_CASKS)
+	@$(MAKE) install-glow-brew
 	@printf 'Installed dependencies with Homebrew\n'
 
 install-deps-dnf:
@@ -232,6 +288,7 @@ install-deps-dnf:
 	@sudo dnf install -y lazygit || true
 	@sudo dnf install -y alacritty || true
 	@sudo dnf install -y wl-clipboard || sudo dnf install -y xclip || true
+	@$(MAKE) install-glow-dnf
 	@if ! command -v pyenv >/dev/null 2>&1; then \
 		$(MAKE) install-pyenv; \
 	fi
@@ -269,6 +326,7 @@ install-deps-apt:
 	else \
 		printf 'Skipping clipboard tools: neither wl-clipboard nor xclip is available via apt\n'; \
 	fi
+	@$(MAKE) install-glow-apt
 	@if ! command -v pyenv >/dev/null 2>&1; then \
 		$(MAKE) install-pyenv; \
 	fi
