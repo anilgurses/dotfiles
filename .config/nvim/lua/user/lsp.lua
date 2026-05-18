@@ -7,6 +7,10 @@ local M = {
 function M.config()
     local capabilities = require("blink.cmp").get_lsp_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
+    capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+    }
 
     local function lsp_keymaps(bufnr)
         local opts = { noremap = true, silent = true }
