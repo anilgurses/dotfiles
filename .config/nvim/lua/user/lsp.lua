@@ -33,11 +33,7 @@ function M.config()
 
     local lspconfig = require "lspconfig"
     local on_attach = function(client, bufnr)
-        if client.name == "tsserver" then
-            client.server_capabilities.documentFormattingProvider = false
-        end
-
-        if client.name == "sumneko_lua" then
+        if client.name == "ts_ls" or client.name == "lua_ls" then
             client.server_capabilities.documentFormattingProvider = false
         end
         lsp_keymaps(bufnr)

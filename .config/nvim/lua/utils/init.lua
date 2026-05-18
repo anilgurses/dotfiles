@@ -6,6 +6,7 @@ M.servers = {
     "lua_ls",
     "html",
     "pyright",
+    "ruff",
     "bashls",
     "jsonls",
     "yamlls",

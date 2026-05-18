@@ -7,6 +7,10 @@ local M = {
             "williamboman/mason-lspconfig.nvim",
             lazy = true,
         },
+        {
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
+            lazy = true,
+        },
     },
 }
 
@@ -28,6 +32,16 @@ function M.config()
     require("mason-lspconfig").setup {
         ensure_installed = require("utils").servers,
         automatic_installation = true,
+    }
+    -- Formatters/linters used by conform.nvim (not LSP servers).
+    require("mason-tool-installer").setup {
+        ensure_installed = {
+            "stylua",
+            "prettier",
+            "clang-format",
+            "ruff",
+        },
+        run_on_start = true,
     }
 end
 
